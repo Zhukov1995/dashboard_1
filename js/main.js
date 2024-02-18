@@ -22,6 +22,7 @@ Papa.parse("./data.csv", {
             redrawLineChart(data_xAxis, data_series);
             redrawTableChart(data);
             createIndicatorChart(data);
+            document.querySelector('.select_btn').classList.remove('open');
         });
         document.querySelector('.select_btn_clear').addEventListener('click', () => {
             createLineChart(data_xAxis, data_series);
@@ -44,7 +45,7 @@ function createLineChart(xAxis, series) {
             type: 'line'
         },
         title: {
-            text: 'Динамикой значения показателя по годам',
+            text: 'Динамика значения показателя по годам',
             align: 'left',
             style: { color }
         },
