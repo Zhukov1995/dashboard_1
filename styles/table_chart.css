@@ -1,4 +1,4 @@
-.widget_table {
+.table_chart {
     border: 1px solid var(--color-border);
     overflow-y: scroll;
     height: 300px;
@@ -7,21 +7,21 @@
     background-color: var(--widget-bg);
 }
 
-.widget_table::-webkit-scrollbar {
+.table_chart::-webkit-scrollbar {
   width: 10px;
   background-color: transparent;
 }
 
-.widget_table::-webkit-scrollbar-thumb {
+.table_chart::-webkit-scrollbar-thumb {
   border-radius: var(--widget-br);
   background-color: var(--color-scroll-thumb);
 }
 
-.widget_table table {
+.table_chart table {
     width: 100%;
 }
 
-.widget_table thead {
+.table_chart thead {
     position: sticky;
     background-color: transparent;
     top: 0;

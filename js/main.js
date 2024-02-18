@@ -1,6 +1,3 @@
-const select = document.querySelector('.select');
-const btn_apply = document.querySelector('.btn_apply');
-
 Papa.parse("./data.csv", {
     download: true,
     skipEmptyLines: true,
@@ -17,34 +14,31 @@ Papa.parse("./data.csv", {
         const data_xAxis = prepareDate(data);
         const data_series = prepareData(data);
 
-        createMultiSelect(prepareRegion(data));
+        createMultiSelect(data);
         createLineChart(data_xAxis, data_series);
         createTableChart(data);
         createIndicatorChart(data);
-        btn_apply.addEventListener('click', () => {
+        document.querySelector('.btn_apply').addEventListener('click', () => {
             redrawLineChart(data_xAxis, data_series);
             redrawTableChart(data);
             createIndicatorChart(data);
         });
-        document.querySelector('.item_second').addEventListener('click', () => {
+        document.querySelector('.select_btn_clear').addEventListener('click', () => {
             createLineChart(data_xAxis, data_series);
             createTableChart(data);
             createIndicatorChart(data);
         });
-        console.log(data)
     }
 });
 
-
-
-
+// функция создает график
 function createLineChart(xAxis, series) {
     const root = document.documentElement;
     const style = getComputedStyle(root);
 
     const color = style.getPropertyValue('--color-text');
 
-    Highcharts.chart(document.querySelector('.line-chart'), {
+    Highcharts.chart(document.querySelector('.line_chart'), {
         chart: {
             backgroundColor: style.getPropertyValue('--widget-bg'),
             type: 'line'
@@ -107,14 +101,12 @@ function redrawLineChart(data_xAxis, data_series) {
         arrRegions.push(node.childNodes[3].textContent);
     })
     const filterSeries = data_series.filter(i => arrRegions.includes(i.name))
-    console.log(filterSeries)
-    console.log(arrRegions)
     createLineChart(data_xAxis, filterSeries);
 }
 
 // создание таблицы
 function createTableChart(data) {
-    const tableBody = document.querySelector('.widget_table tbody');
+    const tableBody = document.querySelector('.table_chart tbody');
     tableBody.innerHTML = '';
     data.forEach(item => {
         tableBody.innerHTML += `
@@ -137,8 +129,9 @@ function redrawTableChart(data) {
     createTableChart(filterData);
 }
 
+// функция создает индикатор
 function createIndicatorChart(data) {
-    const value = document.querySelector('.widget_indicator span');
+    const value = document.querySelector('.indicator_chart span');
     const arrValueRUS = data.map(item => {
         if (item['Год'] == '2023') return Number(item['Показатель'])
     }).filter(Number);
@@ -152,8 +145,6 @@ function createIndicatorChart(data) {
     const filterData = data.filter(i => arrRegions.includes(i['Регион']) && i['Год'] == '2023');
     const arrValueSelect = filterData.map(i => Number(i['Показатель']))
     const middleValueSelect = arrValueSelect.reduce((acc, c) => acc + c, 0) / arrValueSelect.length;
-    console.log(middleValueRUS);
-    console.log(middleValueSelect)
 
     value.textContent = arrValueSelect.length ? middleValueSelect.toFixed(2) : middleValueRUS.toFixed(2);
     if (middleValueSelect < middleValueRUS) {
@@ -161,6 +152,72 @@ function createIndicatorChart(data) {
     } else {
         value.style.color = 'green'
     }
+}
+
+// функция создает и заполняет кастомный select
+function createMultiSelect(data) {
+    const selectBtn = document.querySelector('.select_btn');
+    const list = document.querySelector('.select_list');
+    const regions = prepareRegion(data);
+    const newData = ['', '', ...regions];
+
+    newData.forEach((region, index) => {
+        if (index === 0) {
+            list.innerHTML += `
+            <li class="select_btn_all" style="padding-left:10px;cursor:pointer;line-height:25px">Выбрать все</li>`;
+        } else if (index === 1) {
+            list.innerHTML += `
+            <li class="select_btn_clear" style="padding-left:10px;cursor:pointer;line-height:25px">Очистить</li>`;
+        } else {
+            list.innerHTML += `
+        <li class="item">
+                <span class="checkbox"><img src="./images/check.svg" alt="checkbox"></span>
+                <span class="item-text">${region}</span>
+        </li>
+    `;
+        }
+
+    });
+
+    selectBtn.addEventListener('click', () => {
+        selectBtn.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.item').forEach(item => {
+        item.addEventListener('click', () => {
+            item.classList.toggle('checked');
+
+            const checked = document.querySelectorAll('.checked');
+            const btnText = document.querySelector('.select_btn span');
+            if (checked && checked.length > 0) {
+                btnText.innerHTML = `${checked.length} Выбрано`;
+            } else {
+                btnText.innerHTML = 'Регион';
+            }
+        })
+    })
+
+    document.querySelector('.select_btn_all').addEventListener('click', () => {
+        document.querySelectorAll('.item').forEach(item => {
+            item.classList.add('checked');
+
+            const checked = document.querySelectorAll('.checked');
+            const btnText = document.querySelector('.select_btn span');
+            if (checked && checked.length > 0) {
+                btnText.innerHTML = `${checked.length} Выбрано`;
+            } else {
+                btnText.innerHTML = 'Регион';
+            }
+        })
+    });
+
+    document.querySelector('.select_btn_clear').addEventListener('click', () => {
+        document.querySelectorAll('.item').forEach(item => {
+            item.classList.remove('checked');
+        })
+        const btnText = document.querySelector('.select_btn span');
+        btnText.innerHTML = 'Регион';
+    })
 }
 
 
@@ -196,73 +253,6 @@ function prepareRegion(data) {
         return item['Регион']
     })
     return Array.from(new Set(region));
-}
-
-
-
-// функция создает и заполняет кастомный select
-function createMultiSelect(regions) {
-    const selectBtn = document.querySelector('.select-btn');
-    const list = document.querySelector('.list-items');
-    const data = ['', '', ...regions];
-
-    data.forEach((region, index) => {
-        if (index === 0) {
-            list.innerHTML += `
-            <li class="item_first" style="padding-left:10px;cursor:pointer;line-height:25px">Выбрать все</li>`;
-        } else if (index === 1) {
-            list.innerHTML += `
-            <li class="item_second" style="padding-left:10px;cursor:pointer;line-height:25px">Очистить</li>`;
-        } else {
-            list.innerHTML += `
-        <li class="item">
-                <span class="checkbox"><img src="./images/check.svg" alt="checkbox"></span>
-                <span class="item-text">${region}</span>
-        </li>
-    `;
-        }
-
-    });
-
-    selectBtn.addEventListener('click', () => {
-        selectBtn.classList.toggle('open');
-    });
-
-    document.querySelectorAll('.item').forEach(item => {
-        item.addEventListener('click', () => {
-            item.classList.toggle('checked');
-
-            const checked = document.querySelectorAll('.checked');
-            const btnText = document.querySelector('.btn-text');
-            if (checked && checked.length > 0) {
-                btnText.innerHTML = `${checked.length} Выбрано`;
-            } else {
-                btnText.innerHTML = 'Регион';
-            }
-        })
-    })
-
-    document.querySelector('.item_first').addEventListener('click', () => {
-        document.querySelectorAll('.item').forEach(item => {
-            item.classList.add('checked');
-
-            const checked = document.querySelectorAll('.checked');
-            const btnText = document.querySelector('.btn-text');
-            if (checked && checked.length > 0) {
-                btnText.innerHTML = `${checked.length} Выбрано`;
-            } else {
-                btnText.innerHTML = 'Регион';
-            }
-        })
-    });
-
-    document.querySelector('.item_second').addEventListener('click', () => {
-        document.querySelectorAll('.item').forEach(item => {
-            item.classList.remove('checked');
-        })
-        const btnText = document.querySelector('.btn-text');
-        btnText.innerHTML = 'Регион';
-    })
 }
 
 
