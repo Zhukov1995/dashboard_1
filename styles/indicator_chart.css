@@ -1,0 +1,12 @@
+.widget_indicator {
+    border: 1px solid var(--color-border);
+    border-radius: var(--widget-br);
+    width: 20%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    margin-left: 10px;
+    background-color: var(--widget-bg);
+}

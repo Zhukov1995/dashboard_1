@@ -1,0 +1,39 @@
+@import url('./root.css');
+@import url('./filter_chart.css');
+@import url('./line_chart.css');
+@import url('./table_chart.css');
+@import url('./indicator_chart.css');
+
+
+* {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: var(--color-text);
+}
+
+body  {
+    background-color: var(--dashboard-bg);
+}
+
+.dashboard {
+    width: 95%;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+
+
+
+.container-charts {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+
+
+
+

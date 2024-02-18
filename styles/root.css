@@ -1,0 +1,10 @@
+:root {
+    --dashboard-bg: #21242f;
+    --widget-bg: #292c36;
+    --widget-br: 5px;
+    --color-border: rgb(71, 71, 71);
+    --color-text: white;
+    --font-family: Arial, Helvetica, sans-serif;
+    --color-border-checkbox: white;
+    --color-scroll-thumb: white;
+}

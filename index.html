@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/index.css" type="text/css">
+    <script src="./js/papaparse.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <title>Дашборд Цифромед</title>
+</head>
+
+<body>
+    <div class="dashboard">
+        <div class="filter_chart">
+            <div class="container">
+                <div class="select-btn">
+                    <span class="btn-text">Регион</span>
+                    <img src="./images/arrow.svg" alt="arrow" class="arrow-dwn">
+                </div>
+                <ul class="list-items"></ul>
+            </div>
+            <button class="btn_apply">Применить</button>
+        </div>
+        <div class="line-chart"></div>
+        <div class="container-charts">
+            <div class="widget_table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Регион</th>
+                            <th>Год</th>
+                            <th>Показатель</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="widget_indicator"><span></span></div>
+        </div>
+    </div>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>

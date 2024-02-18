@@ -1,0 +1,36 @@
+.widget_table {
+    border: 1px solid var(--color-border);
+    overflow-y: scroll;
+    height: 300px;
+    width: 80%;
+    border-radius: var(--widget-br);
+    background-color: var(--widget-bg);
+}
+
+.widget_table::-webkit-scrollbar {
+  width: 10px;
+  background-color: transparent;
+}
+
+.widget_table::-webkit-scrollbar-thumb {
+  border-radius: var(--widget-br);
+  background-color: var(--color-scroll-thumb);
+}
+
+.widget_table table {
+    width: 100%;
+}
+
+.widget_table thead {
+    position: sticky;
+    background-color: transparent;
+    top: 0;
+    z-index: 2;
+  
+ }
+
+td {
+    min-width: 150px;
+    border-bottom: 1px solid #4d4c4c ;
+    padding-left: 5px;
+}
