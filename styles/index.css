@@ -3,6 +3,7 @@
 @import url('./line_chart.css');
 @import url('./table_chart.css');
 @import url('./indicator_chart.css');
+@import url('../js/modules/spin/spin.css');
 
 
 * {

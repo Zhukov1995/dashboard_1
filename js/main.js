@@ -1,7 +1,12 @@
+import { isLoading } from "./utils/load.js";
+
+isLoading();
+
 Papa.parse("./data.csv", {
     download: true,
     skipEmptyLines: true,
     complete: function (results) {
+        isLoading(false);
         const data = results.data.map((item, index, array) => {
             if (index === 0) return;
             return {

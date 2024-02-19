@@ -5,6 +5,7 @@
     width: 80%;
     border-radius: var(--widget-br);
     background-color: var(--widget-bg);
+    position: relative;
 }
 
 .table_chart::-webkit-scrollbar {

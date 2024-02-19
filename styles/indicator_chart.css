@@ -9,4 +9,5 @@
     font-size: 30px;
     margin-left: 10px;
     background-color: var(--widget-bg);
+    position: relative;
 }
